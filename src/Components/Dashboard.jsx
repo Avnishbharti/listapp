@@ -22,7 +22,7 @@ const Dashboard = ({ data, setEditData }) => {
 
 
     return (
-        <div style={{ width: '99vw', height: '92vh', display: 'flex', flexDirection: 'column', gap: '50px', paddingLeft: '24px' }}>
+        <div style={{ width: '98vw', height: '92vh', display: 'flex', flexDirection: 'column', gap: '50px', paddingLeft: '24px' }}>
             <div className='navBar'  >
                 <div className='navsection'>
                     <Title level={4} style={{ margin: 0 }}>DashBoard</Title>
