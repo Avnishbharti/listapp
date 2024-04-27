@@ -1,44 +1,64 @@
 import { Button, Form, Input, Space, Switch, Typography } from 'antd';
 import axios from 'axios';
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 const { Title } = Typography
 
 const AddNUpdateForm = ({ setData, editData, setEditData, data }) => {
     const [form] = Form.useForm()
-    const navigate=useNavigate()
+    const navigate = useNavigate()
 
 
-    console.log('editDtaaa',editData)
+    console.log('editDtaaa', editData)
 
 
-    const handleSubmit = (values) => {
+    const handleSubmit = useCallback((values) => {
         console.log('valuesss', values)
-        let postData=[...data,values]
-        axios.post('https://jsonplaceholder.typicode.com/users', postData)
-            .then(response => {
-                console.log('Posted data:', response.data);
-                setData(response.data)
-            })
-            .catch(error => {
-                console.error('Error posting data:', error);
-            });
+
+
+        if (editData) {
+            let temp = [...data]
+            temp[editData?.idx] = values
+            console.log('tempDTafayfuag', temp)
+
+            setData(temp)
+
+            axios.post('https://jsonplaceholder.typicode.com/users', temp)
+                .then(response => {
+                    console.log('Posted data:', response.data);
+                    
+                })
+                .catch(error => {
+                    console.error('Error posting data:', error);
+                });
+        } else {
+            let tempData = [...data, values]
+            axios.post('https://jsonplaceholder.typicode.com/users', tempData)
+                .then(response => {
+                    console.log('Posted data:', response.data);
+                
+                })
+                .catch(error => {
+                    console.error('Error posting data:', error);
+                });
+        }
+
 
         form.resetFields();
         setEditData(null)
         navigate('/')
 
-    }
-
+    }, [data, editData]
+    )
 
 
     useEffect(() => {
         if (editData != null) {
             form.setFieldsValue({
-                name: editData?.name,
-                email: editData?.email,
-                phone: editData?.phone,
-                status: editData?.status
+                name: editData?.value?.name,
+                email: editData?.value?.email,
+                phone: editData?.value?.phone,
+                status: editData?.value?.status
             });
         }
     }, [editData])
@@ -65,7 +85,7 @@ const AddNUpdateForm = ({ setData, editData, setEditData, data }) => {
                         rules={[
                             {
                                 required: true,
-                                  message: "Please enter name ",
+                                message: "Please enter name ",
                             },
                         ]}
                     >

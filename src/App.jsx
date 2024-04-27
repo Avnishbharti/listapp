@@ -22,7 +22,7 @@ function App() {
       .catch(error => {
         console.error('Error fetching users data:', error);
       });
-  }, [])
+  },[])
 
 
 
