@@ -33,9 +33,11 @@ const AddNUpdateForm = ({ setData, editData, setEditData, data }) => {
                 });
         } else {
             let tempData = [...data, values]
+            setData([...data,values])
             axios.post('https://jsonplaceholder.typicode.com/users', tempData)
                 .then(response => {
                     console.log('Posted data:', response.data);
+                    // setData(response.data)
                 
                 })
                 .catch(error => {
